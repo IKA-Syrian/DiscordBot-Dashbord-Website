@@ -1,0 +1,5 @@
+//build project
+npm run build
+
+//run build
+pm2 start yarn --interpreter bash --name "readerfront-web" -- start:prod

@@ -1,0 +1,5 @@
+export { DashboardPage } from './DashboardPage'
+export { LandingPage } from './LandingPage'
+export { MenuPage } from './MenuPage'
+export { AllUserPage } from './AllUser'
+export { SingleUserPage } from './SingleUser'
