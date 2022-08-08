@@ -42,6 +42,7 @@ export function DashboardPage( { history, match } ) {
         <div>
             <h1>Dashboard Page</h1>
             <DashboardMenu guildID={guildID} top5={ top5 } last5={ last5 } latestseries={ latestseries }/>
+            {/* <getTop top5={ top5 } /> */}
         </div>
     )
 }

@@ -25,7 +25,7 @@ export function GetTop( { history,
                         {
                             top5.map((data) => (
                                 <tr>
-                                    <td>{data.id}</td>
+                                    <td>{(top5.indexOf(data) + 1)}</td>
                                     <td>{data.account_id}</td>
                                     <td>{Buffer.from(data.account_name).toString()}</td>
                                     <td>{data.count}</td>

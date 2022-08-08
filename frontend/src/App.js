@@ -14,7 +14,7 @@ function App() {
       <Route path="/menu" exact={true} component={ MenuPage } />
       <Route path="/dashboard/:id" exact={true} component={ DashboardPage } />
       <Route path="/dashboard/:id/user/:userid" exact={true} component={ SingleUserPage } />
-      <Route path="/dashboard/users/:id/users/all" exact={true} component={ AllUserPage } />
+      <Route path="/dashboard/:id/users/all" exact={true} component={ AllUserPage } />
     </Switch>
   );
 }

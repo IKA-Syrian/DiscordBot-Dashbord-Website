@@ -3,6 +3,8 @@ import { Formik } from 'formik';
 // import { Input, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom'
 import { Buffer } from 'buffer'
+import { Button } from '@chakra-ui/react';
+import { UpdateData } from './update'
 global.buffer = Buffer
 
 export function GetRecords( { 
@@ -21,6 +23,14 @@ export function GetRecords( {
         const localDate = new Date(dateString);
         return dateToTime(localDate)
     }
+    const [ singleData, setSingleData ] = React.useState(null)
+    const updateData1 = (data) => {
+        setSingleData(data)
+        return data.id == data.id ? UpdateData(singleData) : data
+    }
+    const deleteData = (data) => {
+        // return data.id == data.id ? <UpdateData singleData={singleData}/> : data
+    }
     switch(guildID){
         case "699320430934098030" :
             return (
@@ -35,6 +45,8 @@ export function GetRecords( {
                         <th>Adding Points</th>
                         <th>Adding Balance</th>
                         <th>Date</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                     {
                         userRecord.map((data) => (
@@ -48,6 +60,8 @@ export function GetRecords( {
                                 <td>{data.adding_points}</td>
                                 <td>{data.adding_balance}  </td>
                                 <td>{converttolocal(data.date)}</td>
+                                <td><Button onClick={updateData1(data)}>Update</Button></td>
+                                <td><Button onClick={deleteData(data.id)}>Delete</Button></td>
                                 <br/>
                             </tr>
                         ))
@@ -67,6 +81,8 @@ export function GetRecords( {
                         <th>Adding Points</th>
                         <th>Page Counts</th>
                         <th>Date</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                     {
                         userRecord.map((data) => (
@@ -80,6 +96,8 @@ export function GetRecords( {
                                 <td>{data.adding_points}</td>
                                 <td>{data.page_count}</td>
                                 <td>{converttolocal(data.date)}</td>
+                                <td><Button onClick={setSingleData(data).then(updateData1(data.id))}>Update</Button></td>
+                                <td><Button onClick={setSingleData(data).then(deleteData(data.id))}>Delete</Button></td>
                                 <br/>
                             </tr>
                         ))
@@ -99,6 +117,8 @@ export function GetRecords( {
                         <th>Adding Points</th>
                         <th>Page Counts</th>
                         <th>Date</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                     {
                         userRecord.map((data) => (
@@ -112,6 +132,8 @@ export function GetRecords( {
                                 <td>{data.adding_points}</td>
                                 <td>{data.page_count}</td>
                                 <td>{converttolocal(data.date)}</td>
+                                <td><Button onClick={setSingleData(data).then(updateData1(data.id))}>Update</Button></td>
+                                <td><Button onClick={setSingleData(data).then(deleteData(data.id))}>Delete</Button></td>
                                 <br/>
                             </tr>
                         ))
@@ -129,6 +151,8 @@ export function GetRecords( {
                         <th>Chapter Number</th>
                         <th>Position</th>
                         <th>Date</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                 {
                     userRecord.map((data) => (
@@ -140,6 +164,8 @@ export function GetRecords( {
                             <td>{data.chapter_number}</td>
                             <td>{data.role}</td>
                             <td>{converttolocal(data.date)}</td>
+                            <td><Button onClick={setSingleData(data).then(updateData1(data.id))}>Update</Button></td>
+                            <td><Button onClick={setSingleData(data).then(deleteData(data.id))}>Delete</Button></td>
                             <br/>
                         </tr>
                     ))
