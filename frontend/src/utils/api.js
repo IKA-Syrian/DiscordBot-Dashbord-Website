@@ -54,3 +54,8 @@ export function getUserRecord(guildId, userID, month){
     }
     
 }
+export function getCertificate(data){
+    return axios.get(`https://site.golden-manga.com/api/certificate/query?data=${data}`, { 
+        withCredentials: true,   
+    })
+}

@@ -2,7 +2,7 @@
 import './App.css';
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { Switch, Route} from 'react-router-dom'
-import { LandingPage, MenuPage, DashboardPage, SingleUserPage, AllUserPage } from './pages'
+import { LandingPage, MenuPage, DashboardPage, SingleUserPage, AllUserPage, CertificatePage } from './pages'
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
       <Route path="/dashboard/:id" exact={true} component={ DashboardPage } />
       <Route path="/dashboard/:id/user/:userid" exact={true} component={ SingleUserPage } />
       <Route path="/dashboard/:id/users/all" exact={true} component={ AllUserPage } />
+      <Route path="/certificate" exact={true} component={ CertificatePage } />
     </Switch>
   );
 }
