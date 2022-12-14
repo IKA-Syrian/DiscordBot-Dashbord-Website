@@ -3,7 +3,7 @@ const fetch = require("node-fetch")
 
 const token = process.env.DASHBOARD_BOT_TOKEN
 async function getBotGuilds(){
-    const response = await fetch("http://discord.com/api/v9/users/@me/guilds",{
+    const response = await fetch("https://discord.com/api/v9/users/@me/guilds",{
         method: "GET",
         headers: {
             Authorization: `Bot ${token}`
