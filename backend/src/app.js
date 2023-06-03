@@ -10,6 +10,9 @@ const Store = require('connect-mongo')(session);
 const app = express()
 const PORT = process.env.PORT || 3002;
 const routes = require('./routes')
+
+const cluster = require('cluster')
+const os = require('os')
 // const discord = require('discord.js')
 // const token = process.env.DASHBOARD_BOT_TOKEN
 // const client = new discord.Client({fetchAllMembers:true})
@@ -43,6 +46,25 @@ app.use('/api', routes)
 
 
 
-app.listen(PORT, async () => {
-    console.log(`Runing on ${PORT}`)
-})
+if (cluster.isMaster) {
+    const cpuCount = os.cpus().length;
+
+    for (let i = 0; i < cpuCount; i += 1) {
+        cluster.fork();
+    }
+
+    cluster.on('online', (worker) => {
+        console.log('Worker ' + worker.process.pid + ' is online.');
+    });
+    cluster.on('exit', ({ process }) => {
+        console.log('worker ' + process.pid + ' died.');
+    });
+} else {
+    async function startServer() {
+        await app.listen(PORT, async () => {
+            console.log(`Runing on ${PORT}`)
+        })
+    }
+
+    startServer();
+}

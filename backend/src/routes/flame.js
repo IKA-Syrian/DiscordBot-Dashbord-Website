@@ -10,7 +10,8 @@ const config = {
 }
 const con = require("../database/mysql")
 const mysql = require("mysql2")
-const fetch = require("node-fetch")
+const fetch = require("node-fetch");
+const Selector = require('./switcher');
 
 
 router.get('/user', async (req, res) => {
@@ -18,7 +19,7 @@ router.get('/user', async (req, res) => {
     const query = mysql.format('SELECT * FROM member_tracker WHERE account_id = ?', [discordId])
     const result = await con(config).promise().query(query)
 
-    return result ? res.status(200).send(result[0]) : res.status(404).send({ msg: "Not Found" })
+    return result ? res.status(200).send(result[0][0]) : res.status(404).send({ msg: "Not Found" })
 })
 
 router.get('/series', async (req, res) => {
@@ -33,6 +34,43 @@ router.get('/series', async (req, res) => {
     }
    
 })
+
+router.get('/chapters', async (req, res) => {
+    const { userID, month } = req.query;
+    const query = mysql.format('SELECT * FROM chapter_gold WHERE member_id = ? AND monthname(date) = ? ', [userID, month])
+    console.log(query)
+    const result = await con(config).promise().query(query)
+    return result ? res.status(200).send(result[0]) : res.status(404).send({ msg: "Not Found" })
+})
+
+router.get('/seriespayrate', async (req, res) => {
+    const project  = req.query.project;
+    const role = req.query.role;
+    const query = mysql.format('SELECT shortname,? FROM projects WHERE shortname = ?', [role, project])
+    const result = await con(config).promise().query(query)
+    console.log(query)
+    if(result[0].length > 0){
+        return res.status(200).send(result[0])
+    }else{
+        return  res.status(404).send({ msg: "Not Found" })
+    }
+   
+})
+
+
+router.get('/checkchapter', async (req, res) => {
+    const { project, chapter, role } = req.query;
+    const query = mysql.format('SELECT * FROM chapter_gold WHERE project_name = ? AND chapter_number = ? AND role = ?', [project, chapter, role])
+    const result = await con(config).promise().query(query)
+    console.log(query)
+    if(result[0].length > 0){
+        return res.status(200).send(result[0])
+    }else{
+        return  res.status(404).send({ msg: "Not Found" })
+    }
+})
+
+
 
 router.post('/newrecords', async (req, res) => { 
     const { control, member_id, member, project_name, chapter_number, role, adding_points, page_count } = req.query;
@@ -52,14 +90,40 @@ router.post('/newrecords', async (req, res) => {
 })
 
 router.put('/updatebalance', async (req, res) => {
-    const { discordId, project, role } = req.query;
-    const seriesPayrate = await fetch(`https://site.golden-manga.com/api/flame/series?project=${project}`,{
+    const { discordId, project, role, control } = req.query;
+    const seriesPayrate = await fetch(`https://site.golden-manga.com/api/flame/series?project=${project}`, {
         method: "GET",
     })
     if(seriesPayrate.status === 200){
         const seriesPayrateData = await seriesPayrate.json()
         console.log(seriesPayrateData)
-        return res.status(200).send(seriesPayrateData)
+        // return res.status(200).send(seriesPayrateData)
+        const user = await fetch(`https://site.golden-manga.com/api/flame/user?discordId=${discordId}`, {
+            method: "GET",
+        })
+        if(user.status == 200){
+            const userData = await user.json()
+            console.log(userData)
+            let collection = new Selector(role, seriesPayrateData[0])
+            let payrates = collection.select()
+            console.log(payrates)
+            if(control == 1){
+                //half chapter
+                payrates = parseFloat(parseFloat(payrates)/2)
+    
+            }else{
+                //full chapter
+                payrates = parseFloat(payrates)
+            }
+            let newBalance = parseFloat(parseFloat(userData.count) + parseFloat(payrates))
+            console.log(newBalance)
+            const query = mysql.format('UPDATE member_tracker SET count = ? WHERE account_id = ?', [newBalance, discordId])
+            const result = await con(config).promise().query(query)
+            
+            return result ? res.status(200).send([result[0], {adding_points:payrates}]) : res.status(403).send({ msg: "ERROR" })
+        }else{
+            return res.status(404).send({ msg: "Not Found" })
+        }
         // const query = mysql.format('UPDATE member_tracker SET balance = balance + ? WHERE account_id = ?', [seriesPayrateData[0].payrate, discordId])
         // const result = await con(config).promise().query(query)
     }else{
