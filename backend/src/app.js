@@ -10,7 +10,7 @@ const Store = require('connect-mongo')(session);
 const app = express()
 const PORT = process.env.PORT || 3002;
 const routes = require('./routes')
-
+app.disable('x-powered-by');
 const cluster = require('cluster')
 const os = require('os')
 // const discord = require('discord.js')
