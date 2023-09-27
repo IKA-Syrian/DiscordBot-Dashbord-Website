@@ -1,38 +1,65 @@
-import React from 'react';
-import { Formik } from 'formik';
+import React from "react";
+import { Formik } from "formik";
 // import { Input, Button } from '@chakra-ui/react';
-import { Link } from 'react-router-dom'
-import { Buffer } from 'buffer'
-import { Input, Button } from '@chakra-ui/react';
-global.buffer = Buffer
+import { Link } from "react-router-dom";
+import { Buffer } from "buffer";
+import { Input, Button } from "@chakra-ui/react";
+global.buffer = Buffer;
 
-export function UpdateData( { history, singleDate} ){
-    // const [ prefix, setPrefix ] = React.useState("$");
+export function UpdateData({ singleData }) {
+  // const [ prefix, setPrefix ] = React.useState("$");
 
-    return(
-        <>
-            <Formik
-                initialValues={{ singleDate }}
-                onSubmit={(values) => {
-                    console.log(values)
-                }}
-            >
-                {
-                    singleDate.map((props) => {
-                        <form onSubmit={props.handleSubmit}>
-                            <Input type="text" name="memberid" onChange={props.handleChange} defaultValue={singleDate.memberid}/>
-                            <Input type="text" name="project_name" onChange={props.handleChange} defaultValue={singleDate.project_name}/>
-                            <Input type="text" name="chapter_number" onChange={props.handleChange} defaultValue={singleDate.chapter_number}/>
-                            <Input type="text" name="role" onChange={props.handleChange} defaultValue={singleDate.role}/>
-                            <Input type="text" name="adding_points" onChange={props.handleChange} defaultValue={singleDate.adding_points}/>
-                            <Input type="text" name="adding_balance" onChange={props.handleChange} defaultValue={singleDate.adding_balance}/>
-                            <Button type="Update" children="Update Data" />
-                        </form>
-                    })
-                }
-                
-            </Formik>
-        </>
-    )
-
+  return (
+    <>
+      <Formik
+        initialValues={singleData}
+        onSubmit={(values) => {
+          // Handle form submission here
+          console.log(values);
+        }}
+      >
+        {
+          <form onSubmit={singleData.handleSubmit}>
+            <Input
+              type="text"
+              name="memberid"
+              onChange={singleData.handleChange}
+              defaultValue={singleData.memberid}
+            />
+            <Input
+              type="text"
+              name="project_name"
+              onChange={singleData.handleChange}
+              defaultValue={singleData.project_name}
+            />
+            <Input
+              type="text"
+              name="chapter_number"
+              onChange={singleData.handleChange}
+              defaultValue={singleData.chapter_number}
+            />
+            <Input
+              type="text"
+              name="role"
+              onChange={singleData.handleChange}
+              defaultValue={singleData.role}
+            />
+            <Input
+              type="text"
+              name="adding_points"
+              onChange={singleData.handleChange}
+              defaultValue={singleData.adding_points}
+            />
+            <Input
+              type="text"
+              name="adding_balance"
+              onChange={singleData.handleChange}
+              defaultValue={singleData.adding_balance}
+            />
+            <Button type="Update" children="Update Data" />
+          </form>
+        }
+      </Formik>
+    </>
+  );
 }

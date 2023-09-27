@@ -20,6 +20,45 @@ router.get('/user', async (req, res) => {
 
     return result ? res.status(200).send(result[0][0]) : res.status(404).send({ msg: "Not Found" })
 })
+router.get('/lastrecord', async (req, res) => {
+    const { discordId } = req.query;
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    let month = date_ob.getMonth();
+    const monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const query = mysql.format('SELECT * FROM chapter_gold WHERE member_id = ? AND monthname(date)= ?', [discordId, monthName[month]])
+    const result = await con(config).promise().query(query)
+    if (result[0].length > 0) {
+        return res.status(200).send({
+            total_Chapters: result[0].length,
+            data: result[0][result[0].length - 1]
+        })
+    } else {
+        const query2 = mysql.format('SELECT * FROM chapter_gold WHERE member_id = ? AND monthname(date)= ?', [discordId, monthName[month - 1]])
+        const result2 = await con(config).promise().query(query2)
+        if (result2[0].length > 0) {
+            return res.status(200).send({
+                total_Chapters: result2[0].length,
+                data: result2[0][result2[0].length - 1]
+            })
+        } else {
+            return res.status(404).send({ msg: "Not Found" })
+        }
+    }
+})
+
+router.get('/getseries', async (req, res) => {
+    const channelid = req.query.channelid;
+    const query = mysql.format('SELECT * FROM projects WHERE channel_id = ?', [channelid])
+    const result = await con(config).promise().query(query)
+    console.log(query)
+    if (result[0].length > 0) {
+        return res.status(200).send(result[0][0])
+    } else {
+        return res.status(404).send({ msg: "Not Found" })
+    }
+
+})
 
 router.get('/series', async (req, res) => {
     const project = req.query.project;
@@ -41,6 +80,15 @@ router.get('/chapters', async (req, res) => {
     const result = await con(config).promise().query(query)
     return result ? res.status(200).send(result[0]) : res.status(404).send({ msg: "Not Found" })
 })
+
+router.get('/chapter', async (req, res) => {
+    const { userID, month, year } = req.query;
+    const query = mysql.format('SELECT * FROM chapter_gold WHERE member_id = ? AND monthname(date) = ? AND year(date)= ?', [userID, month, year])
+    console.log(query)
+    const result = await con(config).promise().query(query)
+    return result ? res.status(200).send(result[0]) : res.status(404).send({ msg: "Not Found" })
+})
+
 
 router.get('/seriespayrate', async (req, res) => {
     const { project, role } = req.query;
