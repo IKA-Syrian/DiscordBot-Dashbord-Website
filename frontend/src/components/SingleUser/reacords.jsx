@@ -55,14 +55,14 @@ export function GetRecords({ history, guildID, userRecord }) {
           </tr>
           {userRecord.map((data) => (
             <tr>
-              <td>{data.id}</td>
-              <td>{data.member_id}</td>
+              <td>{RecordData.id}</td>
+              <td>{RecordData.member_id}</td>
               <td>{Buffer.from(data.member).toString().trim()}</td>
-              <td>{data.project_name}</td>
-              <td>{data.chapter_number}</td>
-              <td>{data.role}</td>
-              <td>{data.adding_points}</td>
-              <td>{data.adding_balance} </td>
+              <td>{RecordData.project_name}</td>
+              <td>{RecordData.chapter_number}</td>
+              <td>{RecordData.role}</td>
+              <td>{RecordData.adding_points}</td>
+              <td>{RecordData.adding_balance} </td>
               <td>{converttolocal(data.date)}</td>
               <td>
                 <Button
@@ -98,14 +98,14 @@ export function GetRecords({ history, guildID, userRecord }) {
           </tr>
           {userRecord.map((data) => (
             <tr>
-              <td>{data.id}</td>
-              <td>{data.member_id}</td>
+              <td>{RecordData.id}</td>
+              <td>{RecordData.member_id}</td>
               <td>{Buffer.from(data.member).toString().trim()}</td>
-              <td>{data.project_name}</td>
-              <td>{data.chapter_number}</td>
-              <td>{data.role}</td>
-              <td>{data.adding_points}</td>
-              <td>{data.page_count}</td>
+              <td>{RecordData.project_name}</td>
+              <td>{RecordData.chapter_number}</td>
+              <td>{RecordData.role}</td>
+              <td>{RecordData.adding_points}</td>
+              <td>{RecordData.page_count}</td>
               <td>{converttolocal(data.date)}</td>
               <td>
                 <Button
@@ -145,14 +145,14 @@ export function GetRecords({ history, guildID, userRecord }) {
           </tr>
           {userRecord.map((data) => (
             <tr>
-              <td>{data.id}</td>
-              <td>{data.member_id}</td>
+              <td>{RecordData.id}</td>
+              <td>{RecordData.member_id}</td>
               <td>{Buffer.from(data.member).toString().trim()}</td>
-              <td>{data.project_name}</td>
-              <td>{data.chapter_number}</td>
-              <td>{data.role}</td>
-              <td>{data.adding_points}</td>
-              <td>{data.page_count}</td>
+              <td>{RecordData.project_name}</td>
+              <td>{RecordData.chapter_number}</td>
+              <td>{RecordData.role}</td>
+              <td>{RecordData.adding_points}</td>
+              <td>{RecordData.page_count}</td>
               <td>{converttolocal(data.date)}</td>
               <td>
                 <Button
