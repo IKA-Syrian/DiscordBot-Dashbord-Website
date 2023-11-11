@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@datafire/google_admob": "^3.0.0",
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "connect-mongo": "^3.2.0",
     "cores": "^0.8.5",
     "cors": "^2.8.5",
